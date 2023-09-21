@@ -1,4 +1,4 @@
-name: Deploy to Heroku
+name: Build and Deploy to Heroku
 
 on:
   push:
@@ -6,32 +6,27 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  heroku_deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout repository
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Login to Heroku Container Registry
-      run: docker login --username=_ --password=${{ secrets.HEROKU_API_KEY }} registry.heroku.com
-
-    - name: Build and push Docker image to Heroku
+    - name: Log in to Heroku Container Registry
       run: |
-        docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web .
-        docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+        echo ${{ secrets.HEROKU_API_KEY }} | docker login --username=_ --password-stdin registry.heroku.com
 
-    - name: Release the image on Heroku
+    - name: Build Docker image and push to Heroku
       run: |
-        curl -n -X PATCH https://api.heroku.com/apps/${{ secrets.HEROKU_APP_NAME }}/formation \
-        -d '{
-          "updates": [
-            {
-              "type": "web",
-              "docker_image": "'$(docker images registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web -q)'"
-            }
-          ]
-        }' \
-        -H "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
-        -H "Content-Type: application/json" \
-        -H "Accept: application/vnd.heroku+json; version=3.docker-releases" 
+        docker build -t registry.heroku.com/finalapp2/web .
+        docker push registry.heroku.com/finalapp2/web
+
+    - name: Install Heroku CLI
+      run: |
+        curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
+
+    - name: Release Docker image on Heroku
+      run: heroku container:release web --app finalapp2
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
