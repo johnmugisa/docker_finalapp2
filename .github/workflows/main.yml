@@ -1,4 +1,4 @@
-name: Build and Deploy to Heroku
+run-name: name: Build and Deploy to Heroku
 
 on:
   push:
