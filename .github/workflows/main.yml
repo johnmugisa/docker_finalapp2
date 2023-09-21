@@ -1,0 +1,37 @@
+name: Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Login to Heroku Container Registry
+      run: docker login --username=_ --password=${{ secrets.HEROKU_API_KEY }} registry.heroku.com
+
+    - name: Build and push Docker image to Heroku
+      run: |
+        docker build -t registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web .
+        docker push registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web
+
+    - name: Release the image on Heroku
+      run: |
+        curl -n -X PATCH https://api.heroku.com/apps/${{ secrets.HEROKU_APP_NAME }}/formation \
+        -d '{
+          "updates": [
+            {
+              "type": "web",
+              "docker_image": "'$(docker images registry.heroku.com/${{ secrets.HEROKU_APP_NAME }}/web -q)'"
+            }
+          ]
+        }' \
+        -H "Authorization: Bearer ${{ secrets.HEROKU_API_KEY }}" \
+        -H "Content-Type: application/json" \
+        -H "Accept: application/vnd.heroku+json; version=3.docker-releases" 
