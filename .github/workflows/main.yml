@@ -19,7 +19,7 @@ jobs:
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "finalapp2" # Using your app's name here
-          heroku_email: "YOUR_EMAIL"  # Replace 'YOUR_EMAIL' with your Heroku account email
+          heroku_email: "johnmugisa06@gmail.com"  # Replace 'YOUR_EMAIL' with your Heroku account email
           usedocker: true
           docker_build_args: |
             NODE_ENV
