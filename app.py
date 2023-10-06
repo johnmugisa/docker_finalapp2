@@ -73,7 +73,7 @@ def update_output(contents, filename):
             data = data.apply(lambda x: x.str.replace(',', '.') if x.dtype == "object" else x).astype(float)
 
             # List of cycle numbers to plot
-            cycles_to_plot = [1,2,3,4,5,6,7,8,9,10]
+            cycles_to_plot = [2,3,4,5,6,7,8,9]
 
             # Define a colormap to get different colors for each cycle
             colors = [
