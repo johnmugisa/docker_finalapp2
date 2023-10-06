@@ -107,7 +107,7 @@ def update_output(contents, filename):
                 Ewe_V_discharge = cycle_data['Ewe/V'].to_numpy()[500:-5]
 
                 fig.add_trace(go.Scatter(x=SoC_charge, y=Ewe_V_charge, mode='lines', line=dict(color=colors[index], width=2, dash='dash'), name=f'Cycle {cycle_number} Charge'))
-                # fig.add_trace(go.Scatter(x=SoC_discharge, y=Ewe_V_discharge, mode='lines', line=dict(color=colors[index], width=2), name=f'Cycle {cycle_number} Discharge'))
+                fig.add_trace(go.Scatter(x=SoC_discharge, y=Ewe_V_discharge, mode='lines', line=dict(color=colors[index], width=2), name=f'Cycle {cycle_number} Discharge'))
 
                         # Customizing the figure
             fig.update_layout(
