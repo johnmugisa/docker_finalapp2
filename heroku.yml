@@ -3,4 +3,4 @@ build:
     web: Dockerfile
 
 run:
-  web: CMD ["python", "app.py"]
+  web: python app.py
