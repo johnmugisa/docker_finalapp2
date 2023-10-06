@@ -1,4 +1,5 @@
 # Use the official Python image from the Docker Hub
+# I chose python:3.10-slim-buster since it's a newer version, but you can use 3.8 if you prefer
 FROM python:3.10-slim-buster
 
 # Set the working directory to /app
@@ -8,43 +9,11 @@ WORKDIR /app
 COPY . /app
 
 # Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Also installing dash directly
+RUN pip install --no-cache-dir -r requirements.txt && pip install dash
 
-# Make port 5000 available to the world outside this container
+# I've set the exposed port to 5500, but if you want port 80, replace 5500 with 80
 EXPOSE 5500
-
-# Run app.py when the container launches
-CMD ["python", "app.py"]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Use the official Python image from the Docker Hub
-FROM python:3.8-slim-buster
-
-# Set the working directory to /app
-WORKDIR /app
-
-# Copy the current directory contents into the container at /app
-COPY . /app
-
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install dash
-
-# Make port 80 available to the world outside this container
-EXPOSE 80
 
 # Define environment variable
 ENV NAME World
