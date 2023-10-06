@@ -73,7 +73,7 @@ def update_output(contents, filename):
             data = data.apply(lambda x: x.str.replace(',', '.') if x.dtype == "object" else x).astype(float)
 
             # List of cycle numbers to plot
-            cycles_to_plot = [1,2,3,4,5,6,7,8,9,10]
+            cycles_to_plot = [2,3,4,5,6,7,8,9]
 
             # Define a colormap to get different colors for each cycle
             colors = [
@@ -193,7 +193,7 @@ if __name__ == '__main__':
 
     port=os.environ.get("PORT",5500)
     
-    app.run_server(debug=False, host="0.0.0.0", port=port)
+    app.run_server(debug=False, host="0.0.0.0", port=int(port))
 
 # if __name__ == '__main__':
 #     app.run_server(debug=True)
