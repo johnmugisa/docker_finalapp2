@@ -24,7 +24,4 @@ jobs:
       env:
         NODE_ENV: production
         SECRET_KEY: ${{ secrets.MY_SECRET_KEY }}
-<<<<<<< HEAD
 
-=======
->>>>>>> 845f03224a9557ca64c55bef0fed2e2997c2e37e
